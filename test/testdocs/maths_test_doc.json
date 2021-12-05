@@ -1,0 +1,15 @@
+{
+    "metadata": {
+        "target": ["MathsTestClass", "test.TestClasses"],
+        "alias": "maths",
+        "setup": "True"
+    },
+    "tests": {
+        "add": [
+            {
+                "args": ["2", "3"],
+                "assertion": ["Equal", "5"]
+            }
+        ]
+    }
+}
