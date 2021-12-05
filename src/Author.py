@@ -101,5 +101,5 @@ class Author:
         return lines
 
     
-    def indent(level: int, line: str) -> str:
+    def indent(self, level: int, line: str) -> str:
         return str(" "*level*4) + line
