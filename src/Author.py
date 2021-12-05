@@ -52,17 +52,17 @@ class Author:
     def author_test_result(self, instanceName: str, methodName: str, args: List
                            ) -> str:
         line = f"result = self.{instanceName}.{methodName}("
-        line += args[0]
+        line += f"\"{args[0]}\""
         if len(args) > 1:
             for arg in args[1:]:
-                line += f", {arg}"
+                line += f", \"{arg}\""
         line += ")"
         return line
 
     def author_test_assertion(self, assertion: List) -> str:
         line = f"self.assert{assertion[0]}(result"
         if len(assertion) > 1:
-            line += f", {assertion[1]}"
+            line += f", \"{assertion[1]}\""
         line += ")"
         return line
 
