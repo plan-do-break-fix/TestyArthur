@@ -74,14 +74,65 @@ class MathsTestCase(unittest.TestCase):
         result = self.author.author_test_result(self.testdoc["metadata"]["alias"],
                                                 "add",
                                                 self.testdoc["tests"]["add"][0]["args"])
-        expected = "result = self.maths.add(2, 3)"
+        expected = "result = self.maths.add(\"2\", \"3\")"
         self.assertEqual(result, expected)
 
     def test_author_test_assertion(self):
         result = self.author.author_test_assertion(self.testdoc["tests"]["add"][0]["assertion"])
-        expected = "self.assertEqual(result, 5)"
+        expected = "self.assertEqual(result, \"5\")"
         self.assertEqual(result, expected)
 
+
+class StringTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.author = Author.Author()
+        with open('./test/testdocs/string_test_doc.json') as _f:
+            self.testdoc = json.load(_f)
+
+    def test_author_import_lines(self):
+        result = self.author.author_import_lines(self.testdoc["metadata"]["target"])
+        expected = [[0, "import unittest"], 
+                    [0, "from test.TestClasses import StringTestClass"]
+                    ]
+        self.assertEqual(result, expected)
+
+    def test_author_class_declaration_line(self):
+        result = self.author.author_class_declaration_line(self.testdoc["metadata"]["target"])
+        expected = "class StringTestClassTestCase(unittest.TestCase):"   
+        self.assertEqual(result, expected)
+
+    def test_author_setup_lines(self):
+        result = self.author.author_setup_lines(self.testdoc["metadata"]["alias"],
+                                         self.testdoc["metadata"]["target"][0])
+        expected = [[1, "def setUp(self):"],
+                    [2, "self.stringy = StringTestClass()"]
+                    ]
+        self.assertEqual(result, expected)
+
+    def test_author_teardown_lines(self):
+        result = self.author.author_teardown_lines(self.testdoc["metadata"]["alias"])
+        expected = [[1, "def tearDown(self):"],
+                    [2, "self.stringy.dispose()"]
+                    ]
+        self.assertEqual(result, expected)
+
+    def test_author_test_definition(self):
+        result = self.author.author_test_definition("drop_vowels", self.testdoc["tests"]["drop_vowels"][0])
+        expected = "def test_drop_vowels_66c5f578d5cb9478(self):"
+        self.assertEqual(result, expected)
+
+    def test_author_test_result(self):
+        result = self.author.author_test_result(self.testdoc["metadata"]["alias"],
+                                                "drop_vowels",
+                                                self.testdoc["tests"]["drop_vowels"][0]["args"])
+        expected = "result = self.stringy.drop_vowels(\"you\")"
+        self.assertEqual(result, expected)
+
+    def test_author_test_assertion(self):
+        result = self.author.author_test_assertion(self.testdoc["tests"]["drop_vowels"][0]["assertion"])
+        expected = "self.assertEqual(result, \"y\")"
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()

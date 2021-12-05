@@ -1,0 +1,24 @@
+{
+    "metadata": {
+        "target": ["StringTestClass", "test.TestClasses"],
+        "alias": "stringy",
+        "setup": "True",
+        "teardown": "True"
+    },
+    "tests": {
+        "drop_vowels": [
+            {
+                "args": ["you"],
+                "assertion": ["Equal", "y"]
+            },
+            {
+                "args": ["high life"],
+                "assertion": ["Equal", "hgh lf"]
+            },
+            {
+                "args": ["alphetbetical abstraction"],
+                "assertion": ["Equal", "lphbtcl bstrctn"]
+            }
+        ]
+    }
+}
