@@ -1,6 +1,4 @@
-# Testy Arthur
-
-<img src="https://i.etsystatic.com/21347555/r/il/46f2ba/2750468715/il_fullxfull.2750468715_e06r.jpg" width="64" />
+# Testy Arthur <img src="https://i.etsystatic.com/21347555/r/il/46f2ba/2750468715/il_fullxfull.2750468715_e06r.jpg" width="64" />
 
 A tool for easy authoring of Python3 unit tests
 
@@ -18,7 +16,7 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 
 ### Document Format
 
-```json
+```
 {
     "metadata": {target, alias, ..},
     "tests": [{td1}, {td2}, ...]
@@ -27,7 +25,7 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 
 ### Metadata Format
 
-```json
+```
 "metadata": {
     "target":["_className_", "_moduleName_"],
     "alias": "_instanceName_",
@@ -38,7 +36,7 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 
 ### Testdict List Format
 
-```json
+```
 {
   "_methodName_": [
       {
@@ -64,7 +62,7 @@ To ensure the Author writes unique method definitions in the Test Case, each `te
 
 ### Test Arguments
 
-Lorem.
+Values in `methodName["assertion"]` are passed to the test method definition.
 
 ### Test Assertions
 
@@ -81,7 +79,7 @@ self.assertIsFalse(result)
 `"methodName": {"assertion": ["Equal", expectedValue]}` becomes:
 
 ```py
-self.assertIsFalse(result, expectedValue)
+self.assertIsEqual(result, expectedValue)
 ```
 
 ## Q&A
