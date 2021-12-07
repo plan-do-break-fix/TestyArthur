@@ -40,7 +40,8 @@ class Author:
         return [[1, "def tearDown(self):"],
                 [2, f"self.{instanceName}.dispose()"]
                ]
-
+    
+    ## REFACTOR TESTDICT
     def author_test_definition(self, methodName: str, test: dict) -> str:
         md5hash = hashlib.md5()
         test_str = json.dumps(dict(methodName = test)).encode()
