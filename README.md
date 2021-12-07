@@ -27,6 +27,7 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 
 ```
 "metadata": {
+    "outpath": "",
     "target":["_className_", "_moduleName_"],
     "alias": "_instanceName_",
     "setup": Bool,
