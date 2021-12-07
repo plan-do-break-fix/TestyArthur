@@ -38,4 +38,6 @@ def methods(target: List[str]) -> List[str]:
 def arg_count(target: List[str], methodName: str) -> int:
     _c = target_as_object(target)
     sig = signature(_c.__getattribute__(methodName))
-    return len(str(sig).split(","))
+    return len([_i.strip() for _i
+                in str(sig)[1:-1].split(",")
+                if _i.strip() != "self"])
