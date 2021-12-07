@@ -5,7 +5,7 @@ from inspect import signature
 from typing import List, Union
 from unittest import TestCase
 
-ASSERTIONS = [_i for _i in dir(TestCase) 
+ASSERTIONS = [_i for _i in dir(TestCase)     ## method -> [method, n_args]
               if _i.startswith("assert")
               and not _i.endswith("_")
               ]
@@ -41,3 +41,14 @@ def arg_count(target: List[str], methodName: str) -> int:
     return len([_i.strip() for _i
                 in str(sig)[1:-1].split(",")
                 if _i.strip() != "self"])
+
+## This one is making wanting a class for TARGET_METHODS
+def extract_values(data: object, known: dict) -> dict:
+    if type(data) == dict:
+        pass
+    elif type(data) == list:
+        pass
+
+    
+def assertion_values_from_list(data: list):
+    pass
