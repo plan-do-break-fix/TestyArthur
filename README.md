@@ -18,8 +18,8 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 
 ```
 {
-    "metadata": {target, alias, ..},
-    "tests": [{td1}, {td2}, ...]
+    "metadata": {},
+    "tests": []
 }
 ```
 
@@ -39,13 +39,9 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 
 ```
 {
-  "_methodName_": [
-      {
-          "args": ["", ... ],
-          "assertion": ["", ... ]
-      },
-      ...
-  ]
+    "method": "",
+    "args": ["", ... ],
+    "assertion": ["", ... ]
 }
 ```
 
