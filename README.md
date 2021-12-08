@@ -55,25 +55,25 @@ Authored lines are actually a two-member array in the form `[int, str]`. The int
 
 ### Test method fingerprinting
 
-To ensure the Author writes unique method definitions in the Test Case, each `test_methodName()` is appended with a hexademical fingerprint to `test_methodName_FINGERPRINT()`. The generate the fingerprint value, the MD5 hash digest of the dictionary `methodName: {"args":[], "assertion": []}` is first computed. The fingerprint is the result of taking the XOR of the first sixteen digits of the hash digest with the second sixteen digits. This reduces the length of the test method fingerprint with a smaller increase in collision frequency than simple truncation would result in.
+To ensure the Author writes unique method definitions in the Test Case, each `test_methodName()` is appended with a hexademical fingerprint to `test_methodName_FINGERPRINT()`. The generate the fingerprint value, the MD5 hash digest of the test dictionary `"method": "", "args":[], "assertion": []}` is first computed. The fingerprint is the result of taking the XOR of the first sixteen digits of the hash digest with the second sixteen digits. This reduces the length of the test method fingerprint with a smaller increase in collision frequency than simple truncation would result in.
 
 ### Test Arguments
 
-Values in `methodName["assertion"]` are passed to the test method definition.
+Values in `testdict["assertion"]` are passed to the test method definition.
 
 ### Test Assertions
 
-Each test dictionary under a method must have at least one assertion value. The value of `methodName["assertion"][0]` is expected to be a `unittest.TestCase.assert` method. No additional values are necessary in `methodName["assertion"]` for assertions such as `assertIsTrue` while other assertions will require additional values in the `methodName["assertion"]` list.
+Each test dictionary under a method must have at least one assertion value. The value of `testdict["assertion"][0]` is expected to be a `unittest.TestCase.assert` method. No additional values are necessary in `testdict["assertion"]` for assertions such as `assertIsTrue` while other assertions will require additional values in the `testdict["assertion"]` list.
 
 #### Examples
 
-`"methodName": {"assertion": ["False"]}` becomes:
+`"assertion": ["False"]` becomes:
 
 ```py
 self.assertIsFalse(result)
 ```
 
-`"methodName": {"assertion": ["Equal", expectedValue]}` becomes:
+`"assertion": ["Equal", expectedValue]` becomes:
 
 ```py
 self.assertIsEqual(result, expectedValue)
