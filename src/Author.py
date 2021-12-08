@@ -42,13 +42,13 @@ class Author:
                ]
     
     ## REFACTOR TESTDICT
-    def author_test_definition(self, methodName: str, test: dict) -> str:
+    def author_test_definition(self, test: dict) -> str:
         md5hash = hashlib.md5()
         test_str = json.dumps(dict(methodName = test)).encode()
         md5hash.update(test_str)
         digest = md5hash.hexdigest()
         fingerprint = hex(int(digest[:16], 16) ^ int(digest[16:], 16))[2:]
-        return f"def test_{methodName}_{fingerprint}(self):"
+        return f"def test_{test['method']}_{fingerprint}(self):"
 
     def author_test_result(self, instanceName: str, methodName: str, args: List
                            ) -> str:
@@ -93,11 +93,10 @@ class Author:
         lines = [self.indent(_l[0], _l[1]) for _l in lines]
         return lines
         
-    def author_test(self, methodName: str, instanceName: str, test: dict
-                    ) -> List[str]:
+    def author_test(self, instanceName: str, test: dict) -> List[str]:
         lines = []
-        lines.append([1, self.author_test_definition(methodName, test)])
-        lines.append([2, self.author_test_result(instanceName, methodName, test["args"])])
+        lines.append([1, self.author_test_definition(test)])
+        lines.append([2, self.author_test_result(instanceName, test["methodName"], test["args"])])
         lines.append([2, self.author_test_assertion(test["assertion"])])
         return lines
 
