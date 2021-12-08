@@ -5,20 +5,21 @@
         "setup": "True",
         "teardown": "True"
     },
-    "tests": {
-        "drop_vowels": [
-            {
-                "args": ["you"],
-                "assertion": ["Equal", "y"]
-            },
-            {
-                "args": ["high life"],
-                "assertion": ["Equal", "hgh lf"]
-            },
-            {
-                "args": ["alphetbetical abstraction"],
-                "assertion": ["Equal", "lphbtcl bstrctn"]
-            }
-        ]
-    }
+    "tests": [
+        {
+            "method": "drop_vowels",
+            "args": ["you"],
+            "assertion": ["Equal", "y"]
+        },
+        {
+            "method": "drop_vowels",
+            "args": ["high life"],
+            "assertion": ["Equal", "hgh lf"]
+        },
+        {
+            "method": "drop_vowels",
+            "args": ["alphetbetical abstraction"],
+            "assertion": ["Equal", "lphbtcl bstrctn"]
+        }
+    ]
 }
