@@ -27,6 +27,12 @@ def normalize_assertion(assertion: str) -> Union[str, bool]:
             return _a
     return False
 
+def normalize_method(method: str, METHODS: List[str]) -> Union[str, bool]:
+    for _m in METHODS:
+        if method.lower() == _m.lower():
+            return _m
+    return False
+
 def target_as_object(target: List[str]) -> object:
     _c = importlib.import_module(f"{target[1]}.{target[0]}")
     return _c.__getattribute__(target[0])
@@ -43,7 +49,8 @@ def arg_count(target: List[str], methodName: str) -> int:
                 if _i.strip() != "self"])
 
 ## This one is making wanting a class for TARGET_METHODS
-def extract_values(data: object, known: dict) -> dict:
+def extract_values(data: object, known: dict=None) -> dict:
+    known = {} if not known else known
     if type(data) == dict:
         pass
     elif type(data) == list:
