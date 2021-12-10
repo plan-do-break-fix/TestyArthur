@@ -106,14 +106,12 @@ Pal is capable of interpreting nested, heterogenous data structures.
                     "English",
                     "Spanish"
                 ]
-            }
-        }
-        
+        }   }
     ]
 }
 ```
 
-Pal is highly flexible. The `contains_substring` dictionary in the previous example could alternatively be written as follows: 
+Pal is highly flexible. The `contains_substring` dictionary in the previous example could alternatively be written as follows:
 
 ```JSON
 "contains_substring": [
