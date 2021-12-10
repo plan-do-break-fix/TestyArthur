@@ -67,7 +67,7 @@ class Pal:
                     if not known["assertion"]:
                         known["assertion"] = [_assertion]
                     else:
-                        # found duplicate assertions
+                        # found multiple assertions for single test
                         raise RuntimeError
                 else:
                     _method = self.normalize_method(_k)
@@ -83,7 +83,7 @@ class Pal:
                             known["args"] = [_k]
                 self.candidates.append(self.extract_values(data[_k], known))
         elif type(data) == str:
-            self.candidates.append(self.extract_values([data], known))
+            self.candidates.append(self.values_from_strings([data], known))
         elif type(data) == list:
             if all([type(_i) in [list, dict] for _i in data]):
                 # recursive call on all values
