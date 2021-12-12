@@ -67,13 +67,12 @@ class MathsTestCase(unittest.TestCase):
 
     def test_author_test_definition(self):
         result = self.author.author_test_definition(self.testdoc["tests"][0])
-        expected = "def test_add_23da7c2f38800590(self):"
+        expected = "def test_add_f5eec4c1fe55b495(self):"
         self.assertEqual(result, expected)
 
     def test_author_test_result(self):
         result = self.author.author_test_result(self.testdoc["metadata"]["alias"],
-                                                "add",
-                                                self.testdoc["tests"][0]["args"])
+                                                self.testdoc["tests"][0]["method"])
         expected = "result = self.maths.add(\"2\", \"3\")"
         self.assertEqual(result, expected)
 
@@ -119,13 +118,12 @@ class StringTestCase(unittest.TestCase):
 
     def test_author_test_definition(self):
         result = self.author.author_test_definition(self.testdoc["tests"][0])
-        expected = "def test_drop_vowels_fb5c41aa2a79b0b4(self):"
+        expected = "def test_drop_vowels_c403c1ce99b5837a(self):"
         self.assertEqual(result, expected)
 
     def test_author_test_result(self):
         result = self.author.author_test_result(self.testdoc["metadata"]["alias"],
-                                                "drop_vowels",
-                                                self.testdoc["tests"][0]["args"])
+                                                self.testdoc["tests"][0]["method"])
         expected = "result = self.stringy.drop_vowels(\"you\")"
         self.assertEqual(result, expected)
 
