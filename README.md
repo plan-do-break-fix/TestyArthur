@@ -28,8 +28,8 @@ The Author class turns simplified JSON documents, referred to as "testdocs," int
 ```
 "metadata": {
     "outpath": "",
-    "target":["_className_", "_moduleName_"],
-    "alias": "_instanceName_",
+    "target":["_class_name_", "_moduleName_"],
+    "alias": "_instance_name_",
     "setup": Bool,
     "teardown": Bool
 }
@@ -55,7 +55,7 @@ Authored lines are actually a two-member array in the form `[int, str]`. The int
 
 ### Test method fingerprinting
 
-To ensure the Author writes unique method definitions in the Test Case, each `test_methodName()` is appended with a hexademical fingerprint to `test_methodName_FINGERPRINT()`. The generate the fingerprint value, the MD5 hash digest of the test dictionary `"method": "", "args":[], "assertion": []}` is first computed. The fingerprint is the result of taking the XOR of the first sixteen digits of the hash digest with the second sixteen digits. This reduces the length of the test method fingerprint with a smaller increase in collision frequency than simple truncation would result in.
+To ensure the Author writes unique method definitions in the Test Case, each `test_method_name()` is appended with a hexademical fingerprint to `test_method_name_FINGERPRINT()`. The generate the fingerprint value, the MD5 hash digest of the test dictionary `"method": "", "args":[], "assertion": []}` is first computed. The fingerprint is the result of taking the XOR of the first sixteen digits of the hash digest with the second sixteen digits. This reduces the length of the test method fingerprint with a smaller increase in collision frequency than simple truncation would result in.
 
 ### Test Arguments
 
