@@ -30,8 +30,7 @@ class Author:
                 [0, "https://github.com/plan-do-break-fix/TestyArthur"]
                 ]
 
-    def author_setup_lines(self, instance_name: str, class_name: str
-                           ) -> List[str]:
+    def author_setup_lines(self, instance_name: str, class_name: str) -> List[str]:
         return [[1, "def setUp(self):"],
                 [2, f"self.{instance_name} = {class_name}()"]
                ]
@@ -48,14 +47,13 @@ class Author:
         md5hash.update(test_str)
         digest = md5hash.hexdigest()
         fingerprint = hex(int(digest[:16], 16) ^ int(digest[16:], 16))[2:]
-        return f"def test_{test['method']}_{fingerprint}(self):"
+        return f"def test_{test['method'][0]}_{fingerprint}(self):"
 
-    def author_test_result(self, instance_name: str, method_name: str, args: List
-                           ) -> str:
-        line = f"result = self.{instance_name}.{method_name}("
-        line += f"\"{args[0]}\""
-        if len(args) > 1:
-            for arg in args[1:]:
+    def author_test_result(self, instance_name: str, method: List[str]) -> str:
+        line = f"result = self.{instance_name}.{method[0]}("
+        line += f"\"{method[1]}\""
+        if len(method) > 1:
+            for arg in method[2:]:
                 line += f", \"{arg}\""
         line += ")"
         return line
@@ -67,7 +65,7 @@ class Author:
         line += ")"
         return line
 
-    def author_pydoc(self, testdoc: dict) -> bool:
+    def author_python_lines(self, testdoc: dict) -> bool:
         target = testdoc["metadata"]["target"]
         alias = testdoc["metadata"]["alias"]
         lines = [[0, "#!/usr/bin/python3"],]
@@ -80,15 +78,15 @@ class Author:
         if "setup" in testdoc["metadata"].keys():
             lines += self.author_setup_lines(alias, target[0])
             lines.append(BLANK)
-        for method_tests in testdoc["tests"]:
-            method_name = list(method_tests.keys())[0]
+        for testdict in testdoc["tests"]:
+            method_name = testdict["method"][0]
             for test in testdoc["tests"][method_name]:
                 lines += self.author_test(method_name,
                                           testdoc["metadata"]["alias"],
                                           test)
                 lines.append(BLANK)
         if "teardown" in testdoc["metadata"].keys():
-            lines += self.author_teardown_lines(alias, target[0])
+            lines += self.author_teardown_lines(alias)
             lines.append(BLANK)
         lines = [self.indent(_l[0], _l[1]) for _l in lines]
         return lines
@@ -96,7 +94,7 @@ class Author:
     def author_test(self, instance_name: str, test: dict) -> List[str]:
         lines = []
         lines.append([1, self.author_test_definition(test)])
-        lines.append([2, self.author_test_result(instance_name, test["method_name"], test["args"])])
+        lines.append([2, self.author_test_result(instance_name, test["method"])])
         lines.append([2, self.author_test_assertion(test["assertion"])])
         return lines
 

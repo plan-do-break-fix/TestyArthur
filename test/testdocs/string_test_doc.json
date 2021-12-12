@@ -7,18 +7,15 @@
     },
     "tests": [
         {
-            "method": "drop_vowels",
-            "args": ["you"],
+            "method": ["drop_vowels", "you"],
             "assertion": ["Equal", "y"]
         },
         {
-            "method": "drop_vowels",
-            "args": ["high life"],
+            "method": ["drop_vowels", "high life"],
             "assertion": ["Equal", "hgh lf"]
         },
         {
-            "method": "drop_vowels",
-            "args": ["alphetbetical abstraction"],
+            "method": ["drop_vowels", "alphetbetical abstraction"],
             "assertion": ["Equal", "lphbtcl bstrctn"]
         }
     ]

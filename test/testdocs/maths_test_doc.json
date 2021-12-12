@@ -6,8 +6,7 @@
     },
     "tests": [
         {
-            "method": "add",
-            "args": ["2", "3"],
+            "method": ["add", "2", "3"],
             "assertion": ["Equal", "5"]
         }
     ]
