@@ -1,15 +1,6 @@
+#!/usr/bin/python3
+
 import re
-
-
-class MathsTestClass:
-
-    def add(self, a, b):
-        return int(a) + int(b)
-
-    def multiply(self, a, b):
-        return int(a) * int(b)
-
-
 
 class StringTestClass:
 

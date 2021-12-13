@@ -1,6 +1,7 @@
 {
     "metadata": {
-        "target": ["StringTestClass", "test.TestClasses"],
+        "outpath": "/tmp/TestArthur.Pal.test_output.json",
+        "target": ["StringTestClass"],
         "alias": "stringy",
         "setup": "True",
         "teardown": "True"
