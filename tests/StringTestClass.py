@@ -15,3 +15,6 @@ class StringTestClass:
     def resub(self, a, b, c):
         """For testing multi-argument method using additional imported module."""
         return re.sub(a, b, c)
+    
+    def panic(self):
+        return str(42)
