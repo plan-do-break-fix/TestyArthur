@@ -2,7 +2,7 @@
 
 #import importlib
 from inspect import signature
-from typing import Dict, List, Union
+from typing import Dict, List, Tuple, Union
 import unittest
 
 class Pal:
@@ -130,34 +130,54 @@ class Pal:
         if len(_types) > 1 and "str" in _types:
             values = [_d for _d in data if type(_d) == str]
             data = [_d for _d in data if type(_d) != str]
-            known = self.parse_values(values, known)
+            known = self.parse_values(values, known, judge=False)
             self.proc(data, known)
 
-    def parse_values(self, values: List[str], known: Dict) -> Dict:
+    def parse_values(self, values: List[str], known: Dict, judge=True) -> Union[Dict, bool]:
         """Adds all values to known and returns.
-           * len(values) expected to equal n_required_values(known)"""
+    #NO       * len(values) expected to equal n_required_values(known)  # This is declared with judge instead
+           * judge is used to catch invalid testdicts
+               - should be True when all remaining values are in values list
+               - should be False otherwise (values taken from lists of heterogenous types)
+        """
         if not known["method"]:
-            for _i, _v in enumerate(values):
-                if self.normalize_method(_v):
-                    known["method"] = [self.normalize_method(_v),]
-                    return self.parse_values(values[_i:]+values[:_i], known)
+            _m, values = self.extract_method(values)
+            if judge and not _m:
+                return False
+            known["method"] = [_m,] if _m else []
+
         if not known["assertion"]:
-            for _i, _v in enumerate(values):
-                if self.normalize_assertion(_v):
-                    known["assertion"] = [self.normalize_assertion(_v),]
-                    return self.parse_values(values[_i:]+values[:_i], known)
+            _a, values = self.extract_assertion(values)
+            if judge and not _a:
+                return False
+            known["assertion"] = [_a,] if _a else []
+        
         method_values_needed = self.n_required_method_values(known["method"])
         if method_values_needed:
             known["method"] += values[:method_values_needed]
-            if values[method_values_needed:] == []:
-                return known
-            return self.parse_values(values[method_values_needed:], known)
+            values = values[method_values_needed:]
+        
         assert_values_needed = self.n_required_assertion_values(known["assertion"])
         if assert_values_needed:
             known["assertion"] += values[:assert_values_needed]
-            if values[assert_values_needed:] == []:
-                return known
-            return self.parse_values(values[assert_values_needed:], known)
+            values = values[assert_values_needed:]
+        
+        if not values:
+            return known
+        return self.parse_values(values, known)
+
+    def extract_assertion(self, values: List[str]) -> Tuple[str, List[str]]:
+        for _i, _v in enumerate(values):
+            if self.normalize_assertion(_v):
+                return (self.normalize_assertion(_v), values[:_i] + values[_i+1:])
+        return ("", values)
+
+    def extract_method(self, values: List[str]) -> Tuple[str, List[str]]:
+        for _i, _v in enumerate(values):
+            if self.normalize_method(_v):
+                return (self.normalize_method(_v), values[:_i] + values[_i+1:])
+        return ("", values)
+
 
     def validate(self, known: dict):
         return True if ("method" in known.keys()
