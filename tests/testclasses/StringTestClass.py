@@ -1,15 +1,6 @@
+#!/usr/bin/python3
+
 import re
-
-
-class MathsTestClass:
-
-    def add(self, a, b):
-        return int(a) + int(b)
-
-    def multiply(self, a, b):
-        return int(a) * int(b)
-
-
 
 class StringTestClass:
 
@@ -24,3 +15,6 @@ class StringTestClass:
     def resub(self, a, b, c):
         """For testing multi-argument method using additional imported module."""
         return re.sub(a, b, c)
+    
+    def panic(self):
+        return str(42)
