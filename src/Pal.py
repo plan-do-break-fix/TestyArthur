@@ -5,6 +5,11 @@ from inspect import signature
 from typing import Dict, List, Tuple, Union
 import unittest
 
+TESTDICT = {"target_method": "",
+            "method_args": [],
+            "assertion": "",
+            "assertion_args": []}
+
 class Pal:
 
     def __init__(self):
@@ -69,32 +74,31 @@ class Pal:
 
     def n_known_values(self, known:dict) -> int:
         """Returns the number of values in a known values dictionary."""
-        _n = 1 if known["method"] else 0
-        return _n + len(known["args"]) + len(known["assertion"])
+        return sum(map(len, [known[_k] for _k in list(known)]))
 
-    def n_required_values(self, method_name: str, assertion: str) -> int:
+    def n_required_values(self, target_method: str, assertion: str) -> int:
         """Returns number of values required to complete a known values dict for
-           a given normalized method, normalized assertion pair."""
-        # The method to test and the assertion itself make two
-        return 2 + self.assertions[assertion] + self.list_methods["method_name"] 
+           a given normalized method / normalized assertion pair."""
+        # The target method and the assertion make two
+        return 2 + self.assertions[assertion] + self.targets[target_method] 
 
-    def n_required_assertion_values(self, assertion_array: List) -> int:
-        n_current = len(assertion_array)
-        min_required = self.assertions[str(assertion_array[0])]
-        return int(min_required - n_current) # +1 for assertion itself, -1 for implied result
+    def n_required_assertion_values(self, test: dict) -> int:
+        n_current = len(test["assertion_args"])
+        min_required = self.assertions[test["assertion"]]
+        return int(min_required - (1 + n_current)) #  +1 for result as first arg
 
-    def n_required_method_values(self, method_array: List) -> int:
+    def n_required_method_values(self, test: dict) -> int:
         """Returns minimum number of missing values in known['method'].
            * method_array[0] expected to contain method name."""
-        n_current = len(method_array)
-        min_required = self.targets[str(method_array[0])]
-        return int(min_required + 1 - n_current)  #  +1 for method itself in [0]
+        n_current = len(test["method_args"])
+        min_required = self.targets[test["target_method"]]
+        return int(min_required - n_current)  
 
     def proc(self, data: Dict, known: Dict=None):
         if not data and known:
             if self.validate(known):
                 self.tests.append(known)
-        known = {"method": [], "assertion": []} if not known else known
+        known = TESTDICT if not known else known
         if type(data) == dict:
             self.proc_dict(data, known)
         elif type(data) == list:
@@ -129,23 +133,23 @@ class Pal:
                - should be True when all remaining values are in values list
                - should be False otherwise (values taken from lists of heterogenous types)
         """
-        if not known["method"]:
+        if not known["target_method"]:
             _m, values = self.extract_method(values)
             if judge and not _m:
                 return False
-            known["method"] = [_m,] if _m else []
+            known["target_method"] = _m if _m else ""
         if not known["assertion"]:
             _a, values = self.extract_assertion(values)
             if judge and not _a:
                 return False
-            known["assertion"] = [_a,] if _a else []
-        method_values_needed = self.n_required_method_values(known["method"])
+            known["assertion"] = _a if _a else ""
+        method_values_needed = self.n_required_method_values(known)
         if method_values_needed:
-            known["method"] += values[:method_values_needed]
+            known["method_args"] += values[:method_values_needed]
             values = values[method_values_needed:]
-        assert_values_needed = self.n_required_assertion_values(known["assertion"])
+        assert_values_needed = self.n_required_assertion_values(known)
         if assert_values_needed:
-            known["assertion"] += values[:assert_values_needed]
+            known["assertion_args"] += values[:assert_values_needed]
             values = values[assert_values_needed:]
         if not values:
             return known
@@ -165,11 +169,16 @@ class Pal:
 
 
     def validate(self, known: dict):
-        return True if ("method" in known.keys()
-                        and "assertion" in known.keys()
-                        and known["method"]
-                        and known["assertion"]
-                        ) else False
+        #return True
+        if not (known["target_method"] and known["assertion"]):
+            return False
+        if not (known["target_method"] in list(self.targets)
+                and known["assertion"] in list(self.assertions)):
+            return False
+        if not (len(known["method_args"]) >= self.targets[known["target_method"]]
+                and len(known["assertion_args"]) >= self.assertions[known["assertion"]] -1 ):
+            return False
+        return True
 
 
     def split_values(self, values: List[str], sublen: int) -> List[List[str]]:

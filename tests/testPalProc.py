@@ -28,23 +28,19 @@ class StringTCTestdictProcTestCase(unittest.TestCase):
 
 
     def test_proc_completed(self):
-        data = []
-        known = {"method": ["contains", "doug", "ug"],
-                 "assertion": ["assertTrue"]}
-        self.pal.proc(data, known)
-        self.assertEqual(self.pal.tests[-1], known)
-
-    def test_stringtc_testdoc_one(self):
-        print(self.testdoc)
-        data = self.testdoc["tests"][0]
-        self.pal.proc(data)
-        expected = {"method": ["drop_vowels", "you"],
-                    "assertion": ["assertEqual", "y"]}
+    #def test_stringtc_testdoc_one(self):
+    #    data = self.testdoc["tests"][0]
+    #    self.pal.proc(data)
+    #    expected = {"target_method": "drop_vowels",
+    #                "method_args": ["you"],
+    #                "assertion": "assertEqual", 
+    #                "assertion_args": ["y"]}
+    #    self.assertEqual(self.pal.tests[-1], expected)
     
     #def test_proc_dute(self):
     #    from unittest import mock
     #    data = {"contains": ["doug", "ug"]}
-    #    known = {"method": [],"assertion": ["assertTrue"]}
+    #    known = {"target_method": [],"assertion": ["assertTrue"]}
     #    with mock.patch.object(self.pal, "proc") as mock:
     #        self.pal.proc_dict(data, known)
     #    mock.assert_called_with({"_k": [5, 6]}, {})

@@ -16,80 +16,118 @@ class ParseStringTCTestCase(unittest.TestCase):
   # StringTestCase.contains
     def test_parse_values_contains_last_value_assertion(self):
         data = ["assertTrue"]
-        known = {"method": ["contains", "doug", "ug"],
-                 "assertion": []}
+        known = {"target_method": "contains", 
+                 "method_args": ["doug", "ug"],
+                 "assertion": "",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["contains", "doug", "ug"],
-                 "assertion": ["assertTrue"]}
+        expected = {"target_method": "contains", 
+                    "method_args": ["doug", "ug"],
+                    "assertion": "assertTrue",
+                    "assertion_args": []}
         self.assertEqual(result, expected)
 
     def test_parse_values_contains_last_value_method_arg(self):
         data = ["ug"]
-        known = {"method": ["contains", "doug"],
-                 "assertion": ["assertTrue"]}
+        known = {"target_method": "contains", 
+                 "method_args": ["doug"],
+                 "assertion": "assertTrue",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["contains", "doug", "ug"],
-                 "assertion": ["assertTrue"]}
+        expected = {"target_method": "contains", 
+                    "method_args": ["doug", "ug"],
+                    "assertion": "assertTrue",
+                    "assertion_args": []}
         self.assertEqual(result, expected)
 
     def test_parse_values_contains_all_method_args(self):
         data = ["contains", "doug", "ug"]
-        known = {"method": [],
-                 "assertion": ["assertTrue"]}
+        known = {"target_method": "", 
+                 "method_args": [],
+                 "assertion": "assertTrue",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["contains", "doug", "ug"],
-                 "assertion": ["assertTrue"]}
+        expected = {"target_method": "contains", 
+                    "method_args": ["doug", "ug"],
+                    "assertion": "assertTrue",
+                    "assertion_args": []}
         self.assertEqual(result, expected)
     
     def test_parse_values_contains_method_args(self):
         data = ["doug", "ug"]
-        known = {"method": ["contains"],
-                 "assertion": ["assertTrue"]}
+        known = {"target_method": "contains", 
+                 "method_args": [],
+                 "assertion": "assertTrue",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["contains", "doug", "ug"],
-                 "assertion": ["assertTrue"]}
+        expected = {"target_method": "contains", 
+                    "method_args": ["doug", "ug"],
+                    "assertion": "assertTrue",
+                    "assertion_args": []}
         self.assertEqual(result, expected)
 
     def test_parse_values_contains_all_in_list(self):
-        known = {"method": [], "assertion": []}
         data = ["assertTrue", "contains", "doug", "ug"]
+        known = {"target_method": "", 
+                 "method_args": [],
+                 "assertion": "",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["contains", "doug", "ug"],
-                    "assertion": ["assertTrue"]}
+        expected = {"target_method": "contains", 
+                    "method_args": ["doug", "ug"],
+                    "assertion": "assertTrue",
+                    "assertion_args": []}
         self.assertEqual(result, expected)
 
   # StringTestCase.drop_vowels()
     def test_parse_values_drop_vowels_last_value_assertion(self):
         data = ["dg"]
-        known = {"method": ["drop_vowels", "doug"],
-                 "assertion": ["assertEqual"]}
+        known = {"target_method": "drop_vowels",
+                 "method_args": ["doug"],
+                 "assertion": "assertEqual",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["drop_vowels", "doug"],
-                 "assertion": ["assertEqual", "dg"]}
+        expected = {"target_method": "drop_vowels",
+                 "method_args": ["doug"],
+                 "assertion": "assertEqual",
+                 "assertion_args": ["dg"]}
         self.assertEqual(result, expected)
 
     def test_parse_values_drop_vowels_last_value_method_arg(self):
         data = ["doug"]
-        known = {"method": ["drop_vowels"],
-                 "assertion": ["assertEqual", "dg"]}
+        known = {"target_method": "drop_vowels",
+                 "method_args": [],
+                 "assertion": "assertEqual",
+                 "assertion_args": ["dg"]}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["drop_vowels", "doug"],
-                 "assertion": ["assertEqual", "dg"]}
+        expected = {"target_method": "drop_vowels",
+                    "method_args": ["doug"],
+                    "assertion": "assertEqual",
+                    "assertion_args": ["dg"]}
         self.assertEqual(result, expected)
 
     def test_parse_values_drop_vowels_all_method_args(self):
         data = ["drop_vowels", "doug"]
-        known = {"method": [],
-                 "assertion": ["assertEqual", "dg"]}
+        known = {"target_method": "",
+                 "method_args": [],
+                 "assertion": "assertEqual",
+                 "assertion_args": ["dg"]}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["drop_vowels", "doug"],
-                 "assertion": ["assertEqual", "dg"]}
+        expected = {"target_method": "drop_vowels",
+                    "method_args": ["doug"],
+                    "assertion": "assertEqual",
+                    "assertion_args": ["dg"]}
         self.assertEqual(result, expected)
 
     def test_parse_values_contains_all_in_list(self):
-        known = {"method": [], "assertion": []}
         data = ["assertEqual", "drop_vowels", "doug", "dg"]
+        known = {"target_method": "",
+                 "method_args": [],
+                 "assertion": "",
+                 "assertion_args": []}
         result = self.pal.parse_values(data, known)
-        expected = {"method": ["drop_vowels", "doug"],
-                 "assertion": ["assertEqual", "dg"]}
+        expected = {"target_method": "drop_vowels",
+                    "method_args": ["doug"],
+                    "assertion": "assertEqual",
+                    "assertion_args": ["dg"]}
         self.assertEqual(result, expected)
