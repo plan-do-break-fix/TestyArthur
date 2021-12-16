@@ -4,12 +4,11 @@
         "alias": "maths",
         "setup": "True"
     },
-    "tests": {
-        "add": [
-            {
-                "args": ["2", "3"],
-                "assertion": ["Equal", "5"]
-            }
-        ]
-    }
+    "tests": [
+        {
+            "method": "add",
+            "args": ["2", "3"],
+            "assertion": ["Equal", "5"]
+        }
+    ]
 }

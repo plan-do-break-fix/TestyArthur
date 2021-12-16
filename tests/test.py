@@ -66,19 +66,19 @@ class MathsTestCase(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_author_test_definition(self):
-        result = self.author.author_test_definition("add", self.testdoc["tests"]["add"][0])
-        expected = "def test_add_ef0858aaa92f5454(self):"
+        result = self.author.author_test_definition(self.testdoc["tests"][0])
+        expected = "def test_add_23da7c2f38800590(self):"
         self.assertEqual(result, expected)
 
     def test_author_test_result(self):
         result = self.author.author_test_result(self.testdoc["metadata"]["alias"],
                                                 "add",
-                                                self.testdoc["tests"]["add"][0]["args"])
+                                                self.testdoc["tests"][0]["args"])
         expected = "result = self.maths.add(\"2\", \"3\")"
         self.assertEqual(result, expected)
 
     def test_author_test_assertion(self):
-        result = self.author.author_test_assertion(self.testdoc["tests"]["add"][0]["assertion"])
+        result = self.author.author_test_assertion(self.testdoc["tests"][0]["assertion"])
         expected = "self.assertEqual(result, \"5\")"
         self.assertEqual(result, expected)
 
@@ -118,19 +118,19 @@ class StringTestCase(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_author_test_definition(self):
-        result = self.author.author_test_definition("drop_vowels", self.testdoc["tests"]["drop_vowels"][0])
-        expected = "def test_drop_vowels_66c5f578d5cb9478(self):"
+        result = self.author.author_test_definition(self.testdoc["tests"][0])
+        expected = "def test_drop_vowels_fb5c41aa2a79b0b4(self):"
         self.assertEqual(result, expected)
 
     def test_author_test_result(self):
         result = self.author.author_test_result(self.testdoc["metadata"]["alias"],
                                                 "drop_vowels",
-                                                self.testdoc["tests"]["drop_vowels"][0]["args"])
+                                                self.testdoc["tests"][0]["args"])
         expected = "result = self.stringy.drop_vowels(\"you\")"
         self.assertEqual(result, expected)
 
     def test_author_test_assertion(self):
-        result = self.author.author_test_assertion(self.testdoc["tests"]["drop_vowels"][0]["assertion"])
+        result = self.author.author_test_assertion(self.testdoc["tests"][0]["assertion"])
         expected = "self.assertEqual(result, \"y\")"
         self.assertEqual(result, expected)
 

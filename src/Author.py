@@ -40,29 +40,30 @@ class Author:
         return [[1, "def tearDown(self):"],
                 [2, f"self.{instanceName}.dispose()"]
                ]
-
-    def author_test_definition(self, methodName: str, test: dict) -> str:
+    
+    ## REFACTOR TESTDICT
+    def author_test_definition(self, test: dict) -> str:
         md5hash = hashlib.md5()
         test_str = json.dumps(dict(methodName = test)).encode()
         md5hash.update(test_str)
         digest = md5hash.hexdigest()
         fingerprint = hex(int(digest[:16], 16) ^ int(digest[16:], 16))[2:]
-        return f"def test_{methodName}_{fingerprint}(self):"
+        return f"def test_{test['method']}_{fingerprint}(self):"
 
     def author_test_result(self, instanceName: str, methodName: str, args: List
                            ) -> str:
         line = f"result = self.{instanceName}.{methodName}("
-        line += args[0]
+        line += f"\"{args[0]}\""
         if len(args) > 1:
             for arg in args[1:]:
-                line += f", {arg}"
+                line += f", \"{arg}\""
         line += ")"
         return line
 
     def author_test_assertion(self, assertion: List) -> str:
         line = f"self.assert{assertion[0]}(result"
         if len(assertion) > 1:
-            line += f", {assertion[1]}"
+            line += f", \"{assertion[1]}\""
         line += ")"
         return line
 
@@ -92,11 +93,10 @@ class Author:
         lines = [self.indent(_l[0], _l[1]) for _l in lines]
         return lines
         
-    def author_test(self, methodName: str, instanceName: str, test: dict
-                    ) -> List[str]:
+    def author_test(self, instanceName: str, test: dict) -> List[str]:
         lines = []
-        lines.append([1, self.author_test_definition(methodName, test)])
-        lines.append([2, self.author_test_result(instanceName, methodName, test["args"])])
+        lines.append([1, self.author_test_definition(test)])
+        lines.append([2, self.author_test_result(instanceName, test["methodName"], test["args"])])
         lines.append([2, self.author_test_assertion(test["assertion"])])
         return lines
 
