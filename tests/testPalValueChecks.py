@@ -45,3 +45,13 @@ class NRequiredMethodValuesStringsTCTestCase(unittest.TestCase):
         result = self.pal.n_required_method_values(data)
         self.assertEqual(result, 0)
 
+    def test_n_required_method_values_drop_vowels_with_none(self):
+        data = ["drop_vowels"]
+        result = self.pal.n_required_method_values(data)
+        self.assertEqual(result, 1)
+
+    def test_n_required_method_values_drop_vowels_with_one(self):
+        data = ["drop_vowels", "doug"]
+        result = self.pal.n_required_method_values(data)
+        self.assertEqual(result, 0)
+

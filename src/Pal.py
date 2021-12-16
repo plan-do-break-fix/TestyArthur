@@ -25,7 +25,6 @@ class Pal:
                            if _m.startswith("assert")
                            and not _m.endswith("_")]
         return {_m: self.n_required_args(_tc, _m) for _m in assertion_names}
-        #expected_args = 0
 
     def normalize_assertion(self, assertion: str) -> Union[str, bool]:
         if not assertion.lower().startswith("assert"):
@@ -48,13 +47,6 @@ class Pal:
                 return _m
         return False
 
-    #def class_by_name(self, class_name: str, class_path: str=None) -> object:
-    #    if class_path:
-    #        _c = importlib.import_module(f"{class_path}.{class_name}")
-    #    else:
-    #        _c = importlib.import_module(class_name)
-    #    return _c.__getattribute__(class_name)
-
     def list_methods(self, _class: object) -> List[str]:
         return [_m for _m in dir(_class) if not _m.startswith("_")]
 
@@ -67,9 +59,6 @@ class Pal:
                     if _i.strip() != "self"
                       and "=" not in _i
                     ])
-
-###
-# From Visio file 
 
     def types_in_list(self, _list: List[object]) -> List[str]:
         """Returns a list of distinct object types contained in _list."""
@@ -119,7 +108,7 @@ class Pal:
             for _k in list(data):
                 self.proc(dict(_k = data[_k]), known)
         elif len(data.keys()) == 1:
-            known = self.parse_values(list(data)[0], known)
+            known = self.parse_values(list(data)[0], known, judge=False)
             self.proc(data[list(data)[0]], known)
 
     def proc_list(self, data: List, known: Dict) -> None:
@@ -145,23 +134,19 @@ class Pal:
             if judge and not _m:
                 return False
             known["method"] = [_m,] if _m else []
-
         if not known["assertion"]:
             _a, values = self.extract_assertion(values)
             if judge and not _a:
                 return False
             known["assertion"] = [_a,] if _a else []
-        
         method_values_needed = self.n_required_method_values(known["method"])
         if method_values_needed:
             known["method"] += values[:method_values_needed]
             values = values[method_values_needed:]
-        
         assert_values_needed = self.n_required_assertion_values(known["assertion"])
         if assert_values_needed:
             known["assertion"] += values[:assert_values_needed]
             values = values[assert_values_needed:]
-        
         if not values:
             return known
         return self.parse_values(values, known)
